@@ -97,10 +97,14 @@ public class Admin_Login extends JFrame {
 				try {
 					rs.beforeFirst();
 					int flag = 0;
-					String pwd = password_TF.getPassword().toString();
+					@SuppressWarnings("deprecation")
+					String pwd = password_TF.getText();
 					String user = uname_TF.getText();
+					System.out.println("Input Username : "+user+" \nInput Password: "+password_TF.getPassword().toString());
 					while(rs.next())
 					{
+						System.out.println("Username: "+rs.getString(1));
+						System.out.println("Password: "+rs.getString(2));
 						if((user.equals(rs.getString(1)))&&(pwd.equals(rs.getString(2))))
 						{
 							flag = 1;

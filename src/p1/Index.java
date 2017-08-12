@@ -1,19 +1,18 @@
 package p1;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import java.awt.Button;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
-public class Index extends JFrame {
-
+@SuppressWarnings("serial")
+public class Index extends JFrame 
+{
 	private JPanel contentPane;
 
 	/**
@@ -52,16 +51,22 @@ public class Index extends JFrame {
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				new StartGame().setVisible(true);
 				dispose();
-				StartGame s = new StartGame();
-				s.setVisible(true);
 			}
 		});
-		btnPlay.setBounds(281, 167, 89, 23);
+		btnPlay.setBounds(281, 166, 89, 27);
 		contentPane.add(btnPlay);
 		
-		JButton btnHelp = new JButton("Help");
-		btnHelp.setBounds(281, 218, 89, 23);
+		JButton btnHelp = new JButton("About");
+		btnHelp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				new About().setVisible(true);
+				dispose();
+			}
+		});
+		btnHelp.setBounds(281, 272, 89, 23);
 		contentPane.add(btnHelp);
 		
 		JButton btnExit = new JButton("Exit");
@@ -71,7 +76,7 @@ public class Index extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnExit.setBounds(281, 318, 89, 23);
+		btnExit.setBounds(281, 325, 89, 23);
 		contentPane.add(btnExit);
 		
 		JButton btnAdminLogin = new JButton("Admin Login");
@@ -80,13 +85,14 @@ public class Index extends JFrame {
 			{
 				try {
 					new Admin_Login().setVisible(true);
+					dispose();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		});
-		btnAdminLogin.setBounds(281, 269, 89, 23);
+		btnAdminLogin.setBounds(281, 220, 89, 23);
 		contentPane.add(btnAdminLogin);
 	}
 }

@@ -24,7 +24,7 @@ public class Questions
 
 	public void display()
 	{
-		System.out.println(qid + " : " + Ques);
+		System.out.println(qid + " : " + Ques + " : " + correctOption);
 	}
 	public int getQno() {
 		return qno;

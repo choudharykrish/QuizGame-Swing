@@ -156,6 +156,8 @@ public class Admin_Home extends JFrame {
 			{
 				isNewSession = true;
 				index = 0;
+				qNumber = 1;
+				add = false;
 				new Index().setVisible(true);
 				dispose();
 			}
@@ -173,31 +175,25 @@ public class Admin_Home extends JFrame {
 			{
 				isNewSession = true;
 				index = 0;
+				qNumber = 1;
+				add = false;
 				new AdminChangeID().setVisible(true);
 				dispose();
 			}
 		});
 		contentPane.add(button);
 		
-		//System.out.println("IsNewSession: "+isNewSession);
 		//Fetching all questions
 		if(isNewSession)
 		{
-			//int i=0;
-			questionList = qdao.read('a');
-			//System.out.println("Fetching Questions in Constructor");
-			/*while(questionList.size()>i)
-			{
-				questionList.get(i).display();
-				i++;
-			}*/
+			questionList = new ArrayList<>();
+			questionList.addAll(qdao.read('e'));
+			questionList.addAll(qdao.read('m'));
+			questionList.addAll(qdao.read('d'));
 			isNewSession = false;
 			maxIndex = questionList.size();
 		}		
 	
-		//System.out.println("Index: "+index);
-		//System.out.println("MaxIndex: "+maxIndex);
-		
 		//Q. No. Label
 		JLabel label_Q_No = new JLabel();
 		label_Q_No.setBounds(45, 149, 52, 29);
@@ -476,10 +472,7 @@ public class Admin_Home extends JFrame {
 			button_addNew.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) 
 				{
-					//System.out.println("Add new Question Button Clicked");
 					tempForAdd = new Questions();
-					//System.out.println("tempForAdd object created");
-					//tempForAdd.display();
 					add = true;
 					isOptionSelected = false;
 					isDiffLevelSelected = false;
@@ -506,7 +499,6 @@ public class Admin_Home extends JFrame {
 					}
 					else
 						tempForAdd.setQues(question_text.getText());
-					//System.out.println("isQValid : "+isQuestionValid);
 					if(isQuestionValid&&(textField_op1.getText().trim().isEmpty()||textField_op2.getText().trim().isEmpty()||textField_op3.getText().trim().isEmpty()||textField_op4.getText().trim().isEmpty()))
 					{
 						JOptionPane.showMessageDialog(null, "Options cannot be blank");

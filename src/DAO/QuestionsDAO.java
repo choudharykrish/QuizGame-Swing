@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import DTO.Questions;
 
 public class QuestionsDAO 
@@ -148,6 +147,26 @@ public class QuestionsDAO
 		{
 			e.printStackTrace();
 		}
+		return x;
+	}
+	
+	//Update Admin Detalis
+	public int updateAdmin(String user, String pass)
+	{
+		int x=0;
+		try 
+		{
+			PreparedStatement ps;
+			ps = con.prepareStatement("update admin_login set username = ? , password = ? where id = 1");
+			ps.setString(1, user);
+			ps.setString(2, pass);
+			x = ps.executeUpdate();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
 		return x;
 	}
 }
