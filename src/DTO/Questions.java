@@ -5,6 +5,27 @@ public class Questions
 	int qno,qid;
 	String Ques,op1,op2,op3,op4,correctOption;
 	char diffLevel;
+	
+	public Questions()
+	{
+		Ques = "";
+		op1 = "";
+		op2 = "";
+		op3 = "";
+		op4 = "";
+	}
+	
+	@Override
+	protected void finalize() throws Throwable 
+	{
+		System.out.println("Finalize method called");
+		super.finalize();
+	}
+
+	public void display()
+	{
+		System.out.println(qid + " : " + Ques);
+	}
 	public int getQno() {
 		return qno;
 	}

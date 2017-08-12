@@ -61,7 +61,9 @@ public class QuestionsDAO
 		try 
 		{
 			Statement st = con.createStatement();
-			x = st.executeUpdate("SELECT LAST_INSERT_ID()");
+			ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID()");
+			rs.next();
+			x = rs.getInt(1);
 		} 
 		catch (SQLException e) 
 		{
@@ -78,7 +80,7 @@ public class QuestionsDAO
 	public ArrayList<Questions> read(char diffLevel)
 	{
 		ArrayList<Questions> list = new ArrayList<>();
-		Questions temp = new Questions();
+		
 		try 
 		{
 			Statement st = con.createStatement();
@@ -89,6 +91,7 @@ public class QuestionsDAO
 				rs = st.executeQuery("Select * from questions where diffLevel = '"+diffLevel+"' order by rand()");
 			while(rs.next())
 			{
+				Questions temp = new Questions();
 				temp.setQid(rs.getInt(1));
 				temp.setQues(rs.getString(2));
 				temp.setOp1(rs.getString(3));
@@ -98,12 +101,14 @@ public class QuestionsDAO
 				temp.setCorrectOption(rs.getString(7));
 				temp.setDiffLevel(rs.getString(8).charAt(0));
 				list.add(temp);
+				//temp.display();
 			}
 		} 
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
+		//System.out.println("Returning List");
 		return list;
 	}
 	
@@ -131,9 +136,9 @@ public class QuestionsDAO
 	}
 	
 	//Delete
-	public void delete(Questions u)
+	public int delete(Questions u)
 	{
-		int x;
+		int x=0;
 		try 
 		{
 			Statement st = con.createStatement();
@@ -143,6 +148,6 @@ public class QuestionsDAO
 		{
 			e.printStackTrace();
 		}
-		
+		return x;
 	}
 }
