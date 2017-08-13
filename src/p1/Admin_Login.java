@@ -4,28 +4,23 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import javafx.scene.image.Image;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JSeparator;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 @SuppressWarnings("serial")
 public class Admin_Login extends JFrame {
@@ -35,6 +30,7 @@ public class Admin_Login extends JFrame {
 	Connection con;
 	private JTextField uname_TF;
 	private JPasswordField password_TF;
+	private int xx,xy,x,y;
 	
 	/**
 	 * Launch the application.
@@ -65,6 +61,14 @@ public class Admin_Login extends JFrame {
 		panel.setBackground(new Color(211,211,211));
 	}
 	
+	
+	public Admin_Login(int x, int y) throws Exception {
+		this();
+		this.x = x;
+		this.y = y;
+		setLocation(x, y);
+	}
+
 	/**
 	 * Create the frame.
 	 * @throws Exception 
@@ -79,38 +83,39 @@ public class Admin_Login extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 500);
 		setResizable(false);
+		setUndecorated(true);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		panel.setBackground(new Color(52, 140, 250));
-		panel.setBounds(0, 0, 594, 126);
-		contentPane.add(panel);
+		JPanel panelBlueHead = new JPanel();
+		panelBlueHead.setLayout(null);
+		panelBlueHead.setBackground(new Color(52, 140, 250));
+		panelBlueHead.setBounds(0, 0, 600, 126);
+		contentPane.add(panelBlueHead);
 		
 		JLabel label_3 = new JLabel("");
 		label_3.setIcon(new ImageIcon("SignIn.png"));
 		label_3.setBounds(60, 42, 50, 50);
-		panel.add(label_3);
+		panelBlueHead.add(label_3);
 		
 		JLabel label_4 = new JLabel("Admin Login");
 		label_4.setForeground(Color.WHITE);
 		label_4.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 36));
 		label_4.setBounds(115, 35, 354, 41);
-		panel.add(label_4);
+		panelBlueHead.add(label_4);
 		
 		JLabel label_5 = new JLabel("Please login to continue...");
 		label_5.setForeground(Color.WHITE);
 		label_5.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		label_5.setBounds(125, 73, 278, 30);
-		panel.add(label_5);
+		panelBlueHead.add(label_5);
 		
 		JLabel label_6 = new JLabel("");
 		label_6.setBounds(43, 42, 50, 50);
-		panel.add(label_6);
+		panelBlueHead.add(label_6);
 		
 		uname_TF = new JTextField();
 		uname_TF.setForeground(new Color(0, 102, 204));
@@ -195,7 +200,7 @@ public class Admin_Login extends JFrame {
 						password_TF.setText("");
 						//new Test().setVisible(true);
 						dispose();
-						new Admin_Home().setVisible(true);						
+						new Admin_Home(x,y).setVisible(true);						
 					}
 					//Invalid User
 					else
@@ -241,7 +246,7 @@ public class Admin_Login extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new Index().setVisible(true);
+				new Index(x,y).setVisible(true);
 				dispose();
 			}
 		});
@@ -259,5 +264,56 @@ public class Admin_Login extends JFrame {
 		label_11.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_11.setBounds(32, 72, 40, 19);
 		panel_Back.add(label_11);
+		
+		//Adding Drag and positioning functionality
+		panelBlueHead.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				x = e.getXOnScreen()-xx;
+				y = e.getYOnScreen()-xy;
+				setLocation(x,y);
+			}
+		});
+		
+		panelBlueHead.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				xx = e.getX();
+				xy = e.getY();
+			}
+		});
+		
+		
+		//Close Panel Top Right
+		JPanel panelClose = new JPanel();
+		panelClose.setBackground(new Color(52, 140, 250));
+		panelClose.setBounds(570, 0, 30, 30);
+		panelBlueHead.add(panelClose);
+		panelClose.setLayout(null);
+		
+		JLabel lblX = new JLabel("");
+		lblX.setBounds(0, 0, 30, 30);
+		panelClose.add(lblX);
+		panelClose.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				panelClose.setBackground(new Color(42,100,186));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panelClose.setBackground(new Color(52,140,250));						
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				panelClose.setBackground(new Color(107,166,255));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) 
+			{
+				System.exit(0);
+			}
+		});
+		lblX.setIcon(new ImageIcon("close.png"));
+
 	}
 }

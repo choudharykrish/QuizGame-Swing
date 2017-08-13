@@ -12,23 +12,24 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.HeadlessException;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JSeparator;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 public class AdminChangeID extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField usernameTextField;
 	private JPasswordField passwordField;
+	private int xx,xy,x,y;
 
 	/**
 	 * Launch the application.
@@ -59,6 +60,15 @@ public class AdminChangeID extends JFrame {
 		panel.setBackground(new Color(211,211,211));
 	}
 	
+	
+	
+	public AdminChangeID(int x, int y) throws HeadlessException {
+		this();
+		this.x = x;
+		this.y = y;
+		setLocation(x, y);
+	}
+
 	/**
 	 * Create the frame.
 	 */
@@ -66,6 +76,7 @@ public class AdminChangeID extends JFrame {
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 500);
+		setUndecorated(true);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -88,32 +99,32 @@ public class AdminChangeID extends JFrame {
 		passwordField.setBounds(265, 253, 111, 20);
 		contentPane.add(passwordField);
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		panel.setBackground(new Color(52, 140, 250));
-		panel.setBounds(0, 0, 584, 126);
-		contentPane.add(panel);
+		JPanel panelBlueHead = new JPanel();
+		panelBlueHead.setLayout(null);
+		panelBlueHead.setBackground(new Color(52, 140, 250));
+		panelBlueHead.setBounds(0, 0, 600, 126);
+		contentPane.add(panelBlueHead);
 		
 		JLabel label_2 = new JLabel("");
 		label_2.setBounds(43, 26, 50, 50);
-		panel.add(label_2);
+		panelBlueHead.add(label_2);
 		
 		JLabel label_3 = new JLabel("Change ID/password");
 		label_3.setForeground(Color.WHITE);
 		label_3.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 36));
 		label_3.setBounds(103, 35, 354, 41);
-		panel.add(label_3);
+		panelBlueHead.add(label_3);
 		
 		JLabel label = new JLabel("Enter new username/password");
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		label.setBounds(128, 74, 278, 30);
-		panel.add(label);
+		panelBlueHead.add(label);
 		
 		JLabel label_1 = new JLabel("");
 		label_1.setIcon(new ImageIcon("Change.png"));
 		label_1.setBounds(43, 42, 50, 50);
-		panel.add(label_1);
+		panelBlueHead.add(label_1);
 		
 		JLabel label_4 = new JLabel("Username:");
 		label_4.setForeground(new Color(0, 102, 255));
@@ -159,7 +170,7 @@ public class AdminChangeID extends JFrame {
 				if(qdao.updateAdmin(usernameTextField.getText(), passwordField.getText())>0)
 				{
 					JOptionPane.showMessageDialog(null, "Username/Password updated successfully");
-					new Admin_Home().setVisible(true);
+					new Admin_Home(x,y).setVisible(true);
 					dispose();
 				}
 				else
@@ -199,7 +210,7 @@ public class AdminChangeID extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new Admin_Home().setVisible(true);
+				new Admin_Home(x,y).setVisible(true);
 				dispose();
 			}
 		});
@@ -217,5 +228,56 @@ public class AdminChangeID extends JFrame {
 		label_9.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_9.setBounds(32, 72, 40, 19);
 		panel_back.add(label_9);
+		
+		//Adding Drag and positioning functionality
+		panelBlueHead.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				x = e.getXOnScreen()-xx;
+				y = e.getYOnScreen()-xy;
+				setLocation(x,y);
+			}
+		});
+		
+		panelBlueHead.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				xx = e.getX();
+				xy = e.getY();
+			}
+		});
+		
+		//Close Panel Top Right
+		JPanel panelClose = new JPanel();
+		panelClose.setBackground(new Color(52, 140, 250));
+		panelClose.setBounds(570, 0, 30, 30);
+		panelBlueHead.add(panelClose);
+		panelClose.setLayout(null);
+		
+		JLabel lblX = new JLabel("");
+		lblX.setBounds(0, 0, 30, 30);
+		panelClose.add(lblX);
+		panelClose.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				panelClose.setBackground(new Color(42,100,186));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panelClose.setBackground(new Color(52,140,250));						
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				panelClose.setBackground(new Color(107,166,255));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) 
+			{
+				System.exit(0);
+			}
+		});
+		lblX.setIcon(new ImageIcon("close.png"));
+			
+		
 	}
 }

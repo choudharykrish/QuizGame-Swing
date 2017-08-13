@@ -16,11 +16,13 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import java.util.ArrayList;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JSeparator;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 @SuppressWarnings("serial")
 public class Admin_Home extends JFrame {
@@ -34,7 +36,7 @@ public class Admin_Home extends JFrame {
 	static private boolean isOptionSelected;
 	static private boolean isDiffLevelSelected;
 	static private ArrayList<Questions> questionList;
-	static private boolean isQuestionValid;
+	static private boolean isQuestionValid,isFirstQuestion,isTempCreated;
 	static private int index;
 	static private int maxIndex;
 	private String correctOption;
@@ -60,6 +62,7 @@ public class Admin_Home extends JFrame {
 	private JPanel panelDeleteQues;
 	private JLabel binIconLabel;
 	private JSeparator separator_4;
+	private int xx,xy,x,y;
 
 	static
 	{
@@ -71,6 +74,7 @@ public class Admin_Home extends JFrame {
 		isOptionSelected = false;
 		isDiffLevelSelected = false;
 		isQuestionValid = true;
+		isTempCreated = false;
 	}
 	/**
 	 * Launch the application.
@@ -162,6 +166,15 @@ public class Admin_Home extends JFrame {
 		panel.setBackground(new Color(211,211,211));
 	}
 	
+	
+	
+	public Admin_Home(int x, int y) throws HeadlessException {
+		this();
+		this.x = x;
+		this.y = y;
+		setLocation(x, y);
+	}
+
 	/**
 	 * Create the frame.
 	 */
@@ -170,6 +183,7 @@ public class Admin_Home extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 500);
 		setResizable(false);
+		setUndecorated(true);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -180,7 +194,7 @@ public class Admin_Home extends JFrame {
 		panelBlueHead = new JPanel();
 		panelBlueHead.setLayout(null);
 		panelBlueHead.setBackground(new Color(52, 140, 250));
-		panelBlueHead.setBounds(0, 0, 594, 120);
+		panelBlueHead.setBounds(0, 0, 600, 120);
 		contentPane.add(panelBlueHead);
 		
 		//Question 
@@ -207,11 +221,6 @@ public class Admin_Home extends JFrame {
 		separator.setBounds(93, 78, 379, 18);
 		panelBlueHead.add(separator);
 		
-		
-		
-		
-		
-		
 		//Home Button
 		JPanel panelHome = new JPanel();
 		panelHome.addMouseListener(new MouseAdapter() {
@@ -233,7 +242,7 @@ public class Admin_Home extends JFrame {
 				index = 0;
 				qNumber = 1;
 				add = false;
-				new Index().setVisible(true);
+				new Index(x,y).setVisible(true);
 				dispose();
 			}
 		});
@@ -273,7 +282,7 @@ public class Admin_Home extends JFrame {
 				index = 0;
 				qNumber = 1;
 				add = false;
-				new AdminChangeID().setVisible(true);
+				new AdminChangeID(x,y).setVisible(true);
 				dispose();
 			}
 		});
@@ -305,6 +314,13 @@ public class Admin_Home extends JFrame {
 			questionList.addAll(qdao.read('e'));
 			questionList.addAll(qdao.read('m'));
 			questionList.addAll(qdao.read('d'));
+			if(questionList.isEmpty())
+			{
+				isFirstQuestion = true;
+				index = -1;
+				add = true;
+				qNumber = 0;
+			}
 			isNewSession = false;
 			maxIndex = questionList.size();
 		}		
@@ -312,9 +328,9 @@ public class Admin_Home extends JFrame {
 			label_Q_No.setText(qNumber+"");
 		else
 			label_Q_No.setText((qNumber+1)+"");
-		if(!add&&index<maxIndex)
+		if(!add&&index<maxIndex&&index>=0)
 			questionTextField.setText(questionList.get(index).getQues());
-		else if(add)
+		else if(add&&isTempCreated)
 			questionTextField.setText(tempForAdd.getQues());
 		
 		textField_op1 = new JTextField();
@@ -322,9 +338,9 @@ public class Admin_Home extends JFrame {
 		textField_op1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textField_op1.setBounds(116, 156, 100, 25);
 		textField_op1.setBorder(BorderFactory.createEmptyBorder());
-		if(!add&&index<maxIndex)
+		if(!add&&index<maxIndex&&index>=0)
 			textField_op1.setText(questionList.get(index).getOp1());
-		else if(add)
+		else if(add&&isTempCreated)
 			textField_op1.setText(tempForAdd.getOp1());
 		contentPane.add(textField_op1);
 		
@@ -333,9 +349,9 @@ public class Admin_Home extends JFrame {
 		textField_op2.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textField_op2.setBounds(368, 156, 100, 25);
 		textField_op2.setBorder(BorderFactory.createEmptyBorder());
-		if(!add&&index<maxIndex)
+		if(!add&&index<maxIndex&&index>=0)
 			textField_op2.setText(questionList.get(index).getOp2());
-		else if(add)
+		else if(add&&isTempCreated)
 			textField_op2.setText(tempForAdd.getOp2());
 		contentPane.add(textField_op2);
 		
@@ -344,9 +360,9 @@ public class Admin_Home extends JFrame {
 		textField_op3.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textField_op3.setBounds(116, 213, 100, 25);
 		textField_op3.setBorder(BorderFactory.createEmptyBorder());
-		if(!add&&index<maxIndex)
+		if(!add&&index<maxIndex&&index>=0)
 			textField_op3.setText(questionList.get(index).getOp3());
-		else if(add)
+		else if(add&&isTempCreated)
 			textField_op3.setText(tempForAdd.getOp3());
 		contentPane.add(textField_op3);
 		
@@ -355,9 +371,9 @@ public class Admin_Home extends JFrame {
 		textField_op4.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textField_op4.setBounds(368, 213, 100, 25);
 		textField_op4.setBorder(BorderFactory.createEmptyBorder());
-		if(!add&&index<maxIndex)
+		if(!add&&index<maxIndex&&index>=0)
 			textField_op4.setText(questionList.get(index).getOp4());
-		else if(add)
+		else if(add&&isTempCreated)
 			textField_op4.setText(tempForAdd.getOp4());
 		contentPane.add(textField_op4);
 		
@@ -390,7 +406,7 @@ public class Admin_Home extends JFrame {
 		buttonGroup_diffLevel.add(radioDifficult);
 		radioDifficult.setBounds(368, 274, 87, 23);
 		
-		if(!add&&index<maxIndex)
+		if(!add&&index<maxIndex&&index>=0)
 			switch(questionList.get(index).getDiffLevel())
 			{
 				case 'e':
@@ -426,18 +442,18 @@ public class Admin_Home extends JFrame {
 		{
 			panelDeleteQues = new JPanel();
 			panelDeleteQues.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					panelDeleteQues.setBackground(new Color(42,100,186));
-				}
-				@Override
-				public void mouseExited(MouseEvent e) {
-					panelDeleteQues.setBackground(new Color(52,140,250));						
-				}
-				@Override
-				public void mousePressed(MouseEvent e) {
-					panelDeleteQues.setBackground(new Color(107,166,255));
-				}
+					@Override
+					public void mouseEntered(MouseEvent arg0) {
+						panelDeleteQues.setBackground(new Color(42,100,186));
+					}
+					@Override
+					public void mouseExited(MouseEvent e) {
+						panelDeleteQues.setBackground(new Color(52,140,250));						
+					}
+					@Override
+					public void mousePressed(MouseEvent e) {
+						panelDeleteQues.setBackground(new Color(107,166,255));
+					}
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if(qdao.delete(questionList.get(index))>0)
@@ -447,7 +463,16 @@ public class Admin_Home extends JFrame {
 						qNumber--;
 						index--;
 						maxIndex--;
-						new Admin_Home().setVisible(true);
+						isDiffLevelSelected = false;
+						isOptionSelected = false;
+						if(index==-1)
+						{
+							isFirstQuestion = true;
+							add = true;
+							isTempCreated = false;
+							tempForAdd = new Questions();
+						}
+						new Admin_Home(x,y).setVisible(true);
 						dispose();
 					}
 					else
@@ -494,7 +519,7 @@ public class Admin_Home extends JFrame {
 		buttonGroup_options.add(radioD);
 		radioD.setBounds(310, 217, 52, 23);
 		
-		if(!add&&index<maxIndex)
+		if(!add&&index<maxIndex&&index>=0)
 		{
 			if(questionList.get(index).getCorrectOption().equals(textField_op1.getText()))
 				radioA.setSelected(true);
@@ -507,7 +532,7 @@ public class Admin_Home extends JFrame {
 		}
 		else if(add&&isOptionSelected)
 		{
-			if(tempForAdd.getCorrectOption().equals(textField_op1.getText()))
+			if(tempForAdd.getCorrectOption().equals(textField_op1.getText()))			//Null Ptr Exception. Why?
 				radioA.setSelected(true);
 			else if(tempForAdd.getCorrectOption().equals(textField_op2.getText()))
 				radioB.setSelected(true);
@@ -597,7 +622,7 @@ public class Admin_Home extends JFrame {
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, "Unexpected Error Occured while saving the question");
+							JOptionPane.showMessageDialog(null, "Unexpected Error Occured while updating the question");
 						}
 					}
 					
@@ -644,7 +669,7 @@ public class Admin_Home extends JFrame {
 					}
 					add = false;
 					
-					new Admin_Home().setVisible(true);
+					new Admin_Home(x,y).setVisible(true);
 					dispose();
 					
 				}
@@ -664,7 +689,7 @@ public class Admin_Home extends JFrame {
 			label_1.setBounds(13, 45, 43, 14);
 			panelPrevious.add(label_1);
 		}
-		else if(add)
+		else if(add&&!isFirstQuestion)
 		{
 			//Back Button (in case of adding new question)
 			JPanel panelBack = new JPanel();
@@ -684,8 +709,11 @@ public class Admin_Home extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					add = false;
+					isDiffLevelSelected = false;
+					isOptionSelected = false;
+					isTempCreated = false;
 					
-					new Admin_Home().setVisible(true);
+					new Admin_Home(x,y).setVisible(true);
 					dispose();
 					
 				}
@@ -709,7 +737,7 @@ public class Admin_Home extends JFrame {
 		
 		if(index<maxIndex-1)
 		{
-
+			//Next Button
 			panelNext = new JPanel();
 			panelNext.addMouseListener(new MouseAdapter() {
 				@Override
@@ -729,7 +757,7 @@ public class Admin_Home extends JFrame {
 					qNumber++;
 					index++;
 					
-					new Admin_Home().setVisible(true);
+					new Admin_Home(x,y).setVisible(true);
 					dispose();
 					
 				}
@@ -749,7 +777,7 @@ public class Admin_Home extends JFrame {
 			label_5.setBounds(18, 45, 37, 14);
 			panelNext.add(label_5);
 		}
-		else if(!add&&index==maxIndex-1)		//Add more question Button
+		else if(!add&&index==maxIndex-1)		//Add new question Button
 		{
 			System.out.println("Add More");
 			JPanel panelAddNewQues = new JPanel();
@@ -773,7 +801,7 @@ public class Admin_Home extends JFrame {
 					isOptionSelected = false;
 					isDiffLevelSelected = false;
 					
-					new Admin_Home().setVisible(true);
+					new Admin_Home(x,y).setVisible(true);
 					dispose();
 					
 				}
@@ -812,25 +840,55 @@ public class Admin_Home extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					isQuestionValid = true;
+					
+					
 					if(questionTextField.getText().trim().isEmpty()&&isQuestionValid)		//trim removes leading and trailing white spaces
 					{
 						
 						JOptionPane.showMessageDialog(null, "Question cannot be blank");
 						isQuestionValid = false;
 					}
-					else
-						tempForAdd.setQues(questionTextField.getText());
+					else 
+					{
+						if(isQuestionValid)
+						{
+							if(isFirstQuestion&&!isTempCreated)
+							{
+								tempForAdd = new Questions();
+								System.out.println("Temp created");
+								tempForAdd.setQues(questionTextField.getText());
+								isTempCreated = true;
+							}
+							else 
+								tempForAdd.setQues(questionTextField.getText());
+						}
+					}		
+					
+					
 					if(isQuestionValid&&(textField_op1.getText().trim().isEmpty()||textField_op2.getText().trim().isEmpty()||textField_op3.getText().trim().isEmpty()||textField_op4.getText().trim().isEmpty()))
 					{
 						JOptionPane.showMessageDialog(null, "Options cannot be blank");
 						isQuestionValid = false;
 					}
-					else
-					{
-						tempForAdd.setOp1(textField_op1.getText());
-						tempForAdd.setOp2(textField_op2.getText());
-						tempForAdd.setOp3(textField_op3.getText());
-						tempForAdd.setOp4(textField_op4.getText());
+					else if(isQuestionValid)
+					{						
+						if(isFirstQuestion&&!isTempCreated)
+						{
+							tempForAdd = new Questions();
+							System.out.println("Temp created");
+							tempForAdd.setOp1(textField_op1.getText());
+							tempForAdd.setOp2(textField_op2.getText());
+							tempForAdd.setOp3(textField_op3.getText());
+							tempForAdd.setOp4(textField_op4.getText());
+							isTempCreated = true;
+						}
+						else
+						{
+							tempForAdd.setOp1(textField_op1.getText());
+							tempForAdd.setOp2(textField_op2.getText());
+							tempForAdd.setOp3(textField_op3.getText());
+							tempForAdd.setOp4(textField_op4.getText());
+						}
 					}
 					//fetching correct option
 					fetchCorrectOption();
@@ -838,6 +896,7 @@ public class Admin_Home extends JFrame {
 					//fetching difficulty level
 					fetchDifficultyLevel();
 					
+					System.out.println("isQuesValid before adding: "+isQuestionValid);
 					if(isQuestionValid)
 					{
 						add = false;
@@ -854,18 +913,21 @@ public class Admin_Home extends JFrame {
 							questionList.add(tempForAdd);
 							maxIndex = questionList.size();
 							
-							if(index>0)
-							{
-								index++;
-								qNumber++;
-							}
+							index++;
+							isFirstQuestion = false;
+							isDiffLevelSelected = false;
+							isOptionSelected = false;
+							isTempCreated = false;
+							add = false;
+							qNumber++;
 						}
 						else
 						{
 							JOptionPane.showMessageDialog(null, "Unexpected Error Occured while adding the question");
-						}						
-					}					
-					new Admin_Home().setVisible(true);
+						}
+					}										
+										
+					new Admin_Home(x,y).setVisible(true);
 					dispose();
 				}
 			});
@@ -885,6 +947,89 @@ public class Admin_Home extends JFrame {
 			labelAddToDatabase.setBounds(20, 45, 47, 14);
 			panelAddToDatabase.add(labelAddToDatabase);
 							
+			
+			//Close Panel Top Right
+			JPanel panelClose = new JPanel();
+			panelClose.setBackground(new Color(52, 140, 250));
+			panelClose.setBounds(570, 0, 30, 30);
+			panelBlueHead.add(panelClose);
+			panelClose.setLayout(null);
+			
+			JLabel lblX = new JLabel("");
+			lblX.setBounds(0, 0, 30, 30);
+			panelClose.add(lblX);
+			panelClose.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					panelClose.setBackground(new Color(42,100,186));
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					panelClose.setBackground(new Color(52,140,250));						
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					panelClose.setBackground(new Color(107,166,255));
+				}
+				@Override
+				public void mouseClicked(MouseEvent arg0) 
+				{
+					System.exit(0);
+				}
+			});
+			lblX.setIcon(new ImageIcon("close.png"));
+						
 		}
+		
+		//Adding Drag and positioning functionality
+		panelBlueHead.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				x = e.getXOnScreen()-xx;
+				y = e.getYOnScreen()-xy;
+				setLocation(x,y);
+			}
+		});
+		
+		panelBlueHead.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				xx = e.getX();
+				xy = e.getY();
+			}
+		});
+		
+		
+		//Close Panel Top Right
+		JPanel panelClose = new JPanel();
+		panelClose.setBackground(new Color(52, 140, 250));
+		panelClose.setBounds(570, 0, 30, 30);
+		panelBlueHead.add(panelClose);
+		panelClose.setLayout(null);
+		
+		JLabel lblX = new JLabel("");
+		lblX.setBounds(0, 0, 30, 30);
+		panelClose.add(lblX);
+		panelClose.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				panelClose.setBackground(new Color(42,100,186));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panelClose.setBackground(new Color(52,140,250));						
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				panelClose.setBackground(new Color(107,166,255));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) 
+			{
+				System.exit(0);
+			}
+		});
+		lblX.setIcon(new ImageIcon("close.png"));
+
 	}
 }

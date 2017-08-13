@@ -1,6 +1,5 @@
 package p1;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,17 +7,18 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
+@SuppressWarnings("serial")
 public class About extends JFrame {
 
 	private JPanel contentPane;
+	private int xx,xy,x,y;
 
 	/**
 	 * Launch the application.
@@ -49,38 +49,48 @@ public class About extends JFrame {
 		panel.setBackground(new Color(211,211,211));
 	}
 	
+	
+	
+	public About(int x, int y) throws HeadlessException {
+		this();
+		this.x = x;
+		this.y = y;
+		setLocation(x, y);
+	}
+
 	/**
 	 * Create the frame.
 	 */
 	public About() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 500);
+		setUndecorated(true);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		panel.setBackground(new Color(52, 140, 250));
-		panel.setBounds(0, 0, 584, 126);
-		contentPane.add(panel);
+		JPanel panelBlueHead = new JPanel();
+		panelBlueHead.setLayout(null);
+		panelBlueHead.setBackground(new Color(52, 140, 250));
+		panelBlueHead.setBounds(0, 0, 600, 126);
+		contentPane.add(panelBlueHead);
 		
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon("AboutUs.png"));
 		label.setBounds(43, 26, 50, 50);
-		panel.add(label);
+		panelBlueHead.add(label);
 		
 		JLabel label_1 = new JLabel("About Us");
 		label_1.setForeground(Color.WHITE);
 		label_1.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 36));
 		label_1.setBounds(114, 35, 354, 41);
-		panel.add(label_1);
+		panelBlueHead.add(label_1);
 		
 		JLabel label_3 = new JLabel("");
 		label_3.setBounds(43, 42, 50, 50);
-		panel.add(label_3);
+		panelBlueHead.add(label_3);
 		
 		JLabel label_2 = new JLabel("Created by Krishna Choudhary");
 		label_2.setBackground(new Color(255, 255, 255));
@@ -105,7 +115,7 @@ public class About extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new Index().setVisible(true);
+				new Index(x,y).setVisible(true);
 				dispose();
 			}
 		});
@@ -123,6 +133,56 @@ public class About extends JFrame {
 		label_5.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_5.setBounds(32, 72, 40, 19);
 		panel_1.add(label_5);
+		
+		//Adding Drag and positioning functionality
+		panelBlueHead.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				x = e.getXOnScreen()-xx;
+				y = e.getYOnScreen()-xy;
+				setLocation(x,y);
+			}
+		});
+		
+		panelBlueHead.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				xx = e.getX();
+				xy = e.getY();
+			}
+		});
+		
+		//Close Panel Top Right
+		JPanel panelClose = new JPanel();
+		panelClose.setBackground(new Color(52, 140, 250));
+		panelClose.setBounds(570, 0, 30, 30);
+		panelBlueHead.add(panelClose);
+		panelClose.setLayout(null);
+		
+		JLabel lblX = new JLabel("");
+		lblX.setBounds(0, 0, 30, 30);
+		panelClose.add(lblX);
+		panelClose.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				panelClose.setBackground(new Color(42,100,186));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panelClose.setBackground(new Color(52,140,250));						
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				panelClose.setBackground(new Color(107,166,255));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) 
+			{
+				System.exit(0);
+			}
+		});
+		lblX.setIcon(new ImageIcon("close.png"));
+
 	}
 
 }

@@ -6,19 +6,23 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 @SuppressWarnings("serial")
-public class Index extends JFrame 
+public class Index extends JFrame
 {
 	private JPanel contentPane;
+	private int xx,xy,x,y;
+	static private boolean isFirstTime;
 
+	static
+	{
+		isFirstTime = true;
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -50,32 +54,98 @@ public class Index extends JFrame
 	/**
 	 * Create the frame.
 	 */
-	public Index() {
+	
+	public Index(int x, int y)
+	{
+		this();
+		this.x = x;
+		this.y = y;
+		setLocation(x, y);
+	}
+	
+	public Index() 
+	{
+		if(isFirstTime)
+		{
+			isFirstTime = false;
+			x=100;
+			y=100;
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 500);
+		setBounds(x, y, 600, 500);
 		setResizable(false);
+		setUndecorated(true);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(52, 140, 250));
-		panel_1.setBounds(0, 0, 594, 126);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
+		JPanel panelBlueHead = new JPanel();
+		panelBlueHead.setBackground(new Color(52, 140, 250));
+		panelBlueHead.setBounds(0, 0, 600, 137);
+		
+		//Adding Drag and positioning functionality
+		panelBlueHead.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				x = e.getXOnScreen()-xx;
+				y = e.getYOnScreen()-xy;
+				setLocation(x,y);
+			}
+		});
+		
+		panelBlueHead.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				xx = e.getX();
+				xy = e.getY();
+			}
+		});
+		contentPane.add(panelBlueHead);
+		panelBlueHead.setLayout(null);
 		
 		JLabel label_quizIcon = new JLabel("");
 		label_quizIcon.setBounds(43, 26, 50, 50);
 		label_quizIcon.setIcon(new ImageIcon("Quiz.png"));
-		panel_1.add(label_quizIcon);
+		panelBlueHead.add(label_quizIcon);
 		
 		JLabel lblNewLabel = new JLabel("Quiz Time!");
+		lblNewLabel.setBounds(118, 26, 182, 41);
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 36));
-		lblNewLabel.setBounds(118, 26, 182, 41);
-		panel_1.add(lblNewLabel);
+		panelBlueHead.add(lblNewLabel);
+		
+		//Close Panel Top Right
+		JPanel panelClose = new JPanel();
+		panelClose.setBackground(new Color(52, 140, 250));
+		panelClose.setBounds(570, 0, 30, 30);
+		panelBlueHead.add(panelClose);
+		panelClose.setLayout(null);
+		
+		JLabel lblX = new JLabel("");
+		lblX.setBounds(0, 0, 30, 30);
+		panelClose.add(lblX);
+		panelClose.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				panelClose.setBackground(new Color(42,100,186));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panelClose.setBackground(new Color(52,140,250));						
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				panelClose.setBackground(new Color(107,166,255));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) 
+			{
+				System.exit(0);
+			}
+		});
+		lblX.setIcon(new ImageIcon("close.png"));
 		
 		//Play
 		JPanel panel_play = new JPanel();
@@ -98,7 +168,7 @@ public class Index extends JFrame
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				new StartGame().setVisible(true);
+				new StartGame(x,y).setVisible(true);
 				dispose();
 			}
 		});
@@ -131,7 +201,7 @@ public class Index extends JFrame
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					new Admin_Login().setVisible(true);
+					new Admin_Login(x,y).setVisible(true);
 					dispose();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -173,7 +243,7 @@ public class Index extends JFrame
 			}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				new About().setVisible(true);
+				new About(x,y).setVisible(true);
 				dispose();
 			}
 			
