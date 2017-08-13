@@ -9,17 +9,18 @@ import javax.swing.border.EmptyBorder;
 
 import DAO.QuestionsDAO;
 import DTO.Questions;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.BorderFactory;
+import javax.swing.JSeparator;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class Admin_Home extends JFrame {
@@ -45,6 +46,20 @@ public class Admin_Home extends JFrame {
 	private JRadioButton radioA,radioB,radioC,radioD;
 	private JRadioButton radioEasy,radioModerate,radioDifficult;
 	private JTextField textField_op1,textField_op2,textField_op3,textField_op4;
+	private JPanel panelBlueHead;
+	private JSeparator separator;
+	private JPanel panelPrevious;
+	private JLabel prevIconLabel;
+	private JLabel label_1;
+	private JPanel panelUpdate;
+	private JLabel updateIconLabel;
+	private JLabel label_3;
+	private JPanel panelNext;
+	private JLabel nextIconLabel;
+	private JLabel label_5;
+	private JPanel panelDeleteQues;
+	private JLabel binIconLabel;
+	private JSeparator separator_4;
 
 	static
 	{
@@ -134,6 +149,19 @@ public class Admin_Home extends JFrame {
 		}
 	}
 
+	private void setColor(JPanel panel)
+	{
+		panel.setBackground(new Color(156,156,156));
+	}
+	private void resetColor(JPanel panel)
+	{
+		panel.setBackground(new Color(240,240,240));
+	}
+	private void setLightColor(JPanel panel)
+	{
+		panel.setBackground(new Color(211,211,211));
+	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -143,17 +171,64 @@ public class Admin_Home extends JFrame {
 		setBounds(100, 100, 600, 500);
 		setResizable(false);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		//System.out.println("Constructor");
+		//Panel Blue Head
+		panelBlueHead = new JPanel();
+		panelBlueHead.setLayout(null);
+		panelBlueHead.setBackground(new Color(52, 140, 250));
+		panelBlueHead.setBounds(0, 0, 594, 120);
+		contentPane.add(panelBlueHead);
+		
+		//Question 
+		JTextField questionTextField = new JTextField();
+		questionTextField.setBackground(new Color(52, 140, 250));
+		questionTextField.setBorder(BorderFactory.createEmptyBorder());
+		questionTextField.setBounds(93, 43, 379, 35);
+		panelBlueHead.add(questionTextField);
+		questionTextField.setForeground(new Color(255, 255, 255));
+		questionTextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		
+		//Q. No. Label
+		JLabel label_Q_No = new JLabel();		
+		label_Q_No.setFont(new Font("Tahoma", Font.BOLD, 18));
+		label_Q_No.setForeground(new Color(255, 255, 255));
+		label_Q_No.setBounds(45, 45, 26, 29);
+		panelBlueHead.add(label_Q_No);
+		
+		//Separator
+		separator = new JSeparator();
+		separator.setForeground(new Color(255, 255, 255));
+		separator.setBackground(new Color(255, 255, 255));
+		separator.setBounds(93, 78, 379, 18);
+		panelBlueHead.add(separator);
+		
+		
+		
+		
+		
 		
 		//Home Button
-		JButton btnBack = new JButton("Home");
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
+		JPanel panelHome = new JPanel();
+		panelHome.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				setColor(panelHome);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				resetColor(panelHome);
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				setLightColor(panelHome);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				isNewSession = true;
 				index = 0;
 				qNumber = 1;
@@ -162,17 +237,38 @@ public class Admin_Home extends JFrame {
 				dispose();
 			}
 		});
-		btnBack.setBounds(22, 22, 107, 45);
-		contentPane.add(btnBack);
+		panelHome.setBounds(10, 410, 100, 50);
+		contentPane.add(panelHome);
+		panelHome.setLayout(null);
+		
+		JLabel homeIconLabel = new JLabel("");
+		homeIconLabel.setIcon(new ImageIcon("Home30.png"));
+		homeIconLabel.setBounds(10, 11, 30, 30);
+		panelHome.add(homeIconLabel);
+		
+		JLabel label_2 = new JLabel("Home");
+		label_2.setForeground(new Color(0, 102, 255));
+		label_2.setFont(new Font("Tahoma", Font.BOLD, 14));
+		label_2.setBounds(47, 9, 43, 30);
+		panelHome.add(label_2);
 		
 		//Change ID Button
-		JButton button = new JButton("Change ID/Password");
-		button.setBounds(422, 22, 150, 45);
-		button.addActionListener(new ActionListener() {
-			
+		JPanel panelChangeId = new JPanel();
+		panelChangeId.addMouseListener(new MouseAdapter() {
 			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
+			public void mouseEntered(MouseEvent arg0) {
+				setColor(panelChangeId);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				resetColor(panelChangeId);
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				setLightColor(panelChangeId);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				isNewSession = true;
 				index = 0;
 				qNumber = 1;
@@ -181,7 +277,26 @@ public class Admin_Home extends JFrame {
 				dispose();
 			}
 		});
-		contentPane.add(button);
+		panelChangeId.setLayout(null);
+		panelChangeId.setBounds(466, 410, 113, 50);
+		contentPane.add(panelChangeId);
+		
+		JLabel changeIdIconLabel = new JLabel("");
+		changeIdIconLabel.setIcon(new ImageIcon("ChangeID.png"));
+		changeIdIconLabel.setBounds(10, 11, 30, 30);
+		panelChangeId.add(changeIdIconLabel);
+		
+		JLabel label_6 = new JLabel("Change");
+		label_6.setForeground(new Color(0, 102, 255));
+		label_6.setFont(new Font("Tahoma", Font.BOLD, 12));
+		label_6.setBounds(50, 5, 53, 17);
+		panelChangeId.add(label_6);
+		
+		JLabel label_7 = new JLabel("ID/Pass");
+		label_7.setForeground(new Color(0, 102, 255));
+		label_7.setFont(new Font("Tahoma", Font.BOLD, 12));
+		label_7.setBounds(50, 24, 63, 17);
+		panelChangeId.add(label_7);
 		
 		//Fetching all questions
 		if(isNewSession)
@@ -193,27 +308,20 @@ public class Admin_Home extends JFrame {
 			isNewSession = false;
 			maxIndex = questionList.size();
 		}		
-	
-		//Q. No. Label
-		JLabel label_Q_No = new JLabel();
-		label_Q_No.setBounds(45, 149, 52, 29);
 		if(!add)
 			label_Q_No.setText(qNumber+"");
 		else
 			label_Q_No.setText((qNumber+1)+"");
-		contentPane.add(label_Q_No);
-		
-		//Question 
-		JTextField question_text = new JTextField();
-		question_text.setBounds(107, 123, 389, 63);
 		if(!add&&index<maxIndex)
-			question_text.setText(questionList.get(index).getQues());
+			questionTextField.setText(questionList.get(index).getQues());
 		else if(add)
-			question_text.setText(tempForAdd.getQues());
-		contentPane.add(question_text);
+			questionTextField.setText(tempForAdd.getQues());
 		
 		textField_op1 = new JTextField();
-		textField_op1.setBounds(118, 214, 100, 35);
+		textField_op1.setForeground(new Color(0, 102, 255));
+		textField_op1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		textField_op1.setBounds(116, 156, 100, 25);
+		textField_op1.setBorder(BorderFactory.createEmptyBorder());
 		if(!add&&index<maxIndex)
 			textField_op1.setText(questionList.get(index).getOp1());
 		else if(add)
@@ -221,7 +329,10 @@ public class Admin_Home extends JFrame {
 		contentPane.add(textField_op1);
 		
 		textField_op2 = new JTextField();
-		textField_op2.setBounds(370, 214, 100, 35);
+		textField_op2.setForeground(new Color(0, 102, 255));
+		textField_op2.setFont(new Font("Tahoma", Font.BOLD, 14));
+		textField_op2.setBounds(368, 156, 100, 25);
+		textField_op2.setBorder(BorderFactory.createEmptyBorder());
 		if(!add&&index<maxIndex)
 			textField_op2.setText(questionList.get(index).getOp2());
 		else if(add)
@@ -229,7 +340,10 @@ public class Admin_Home extends JFrame {
 		contentPane.add(textField_op2);
 		
 		textField_op3 = new JTextField();
-		textField_op3.setBounds(118, 271, 100, 35);
+		textField_op3.setForeground(new Color(0, 102, 255));
+		textField_op3.setFont(new Font("Tahoma", Font.BOLD, 14));
+		textField_op3.setBounds(116, 213, 100, 25);
+		textField_op3.setBorder(BorderFactory.createEmptyBorder());
 		if(!add&&index<maxIndex)
 			textField_op3.setText(questionList.get(index).getOp3());
 		else if(add)
@@ -237,7 +351,10 @@ public class Admin_Home extends JFrame {
 		contentPane.add(textField_op3);
 		
 		textField_op4 = new JTextField();
-		textField_op4.setBounds(370, 271, 100, 35);
+		textField_op4.setForeground(new Color(0, 102, 255));
+		textField_op4.setFont(new Font("Tahoma", Font.BOLD, 14));
+		textField_op4.setBounds(368, 213, 100, 25);
+		textField_op4.setBorder(BorderFactory.createEmptyBorder());
 		if(!add&&index<maxIndex)
 			textField_op4.setText(questionList.get(index).getOp4());
 		else if(add)
@@ -246,20 +363,32 @@ public class Admin_Home extends JFrame {
 		
 		
 		JLabel lblDifficultyLevel = new JLabel("Difficulty Level:");
-		lblDifficultyLevel.setBounds(118, 327, 105, 14);
+		lblDifficultyLevel.setForeground(new Color(0, 102, 255));
+		lblDifficultyLevel.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 14));
+		lblDifficultyLevel.setBackground(new Color(255, 255, 255));
+		lblDifficultyLevel.setBounds(103, 276, 113, 19);
 		contentPane.add(lblDifficultyLevel);
 		
 		radioEasy = new JRadioButton("Easy");
+		radioEasy.setForeground(new Color(0, 102, 255));
+		radioEasy.setFont(new Font("Berlin Sans FB", Font.PLAIN, 14));
+		radioEasy.setBackground(new Color(255, 255, 255));
 		buttonGroup_diffLevel.add(radioEasy);
-		radioEasy.setBounds(211, 323, 52, 23);
+		radioEasy.setBounds(209, 275, 63, 21);
 		
 		radioModerate = new JRadioButton("Moderate");
+		radioModerate.setForeground(new Color(0, 102, 255));
+		radioModerate.setFont(new Font("Berlin Sans FB", Font.PLAIN, 14));
+		radioModerate.setBackground(new Color(255, 255, 255));
 		buttonGroup_diffLevel.add(radioModerate);
-		radioModerate.setBounds(276, 323, 81, 23);
+		radioModerate.setBounds(274, 274, 87, 23);
 		
 		radioDifficult = new JRadioButton("Difficult");
+		radioDifficult.setForeground(new Color(0, 102, 255));
+		radioDifficult.setFont(new Font("Berlin Sans FB", Font.PLAIN, 14));
+		radioDifficult.setBackground(new Color(255, 255, 255));
 		buttonGroup_diffLevel.add(radioDifficult);
-		radioDifficult.setBounds(359, 323, 87, 23);
+		radioDifficult.setBounds(368, 274, 87, 23);
 		
 		if(!add&&index<maxIndex)
 			switch(questionList.get(index).getDiffLevel())
@@ -295,44 +424,75 @@ public class Admin_Home extends JFrame {
 		//Delete (bin) Button
 		if(!add)
 		{
-			JButton btnBin = new JButton();
-														//action listener by lambda expression
-			btnBin.addActionListener(e ->
-			{
-				if(qdao.delete(questionList.get(index))>0)
-				{
-					JOptionPane.showMessageDialog(null, "Question Deleted Successfully");
-					questionList.remove(index);
-					qNumber--;
-					index--;
-					maxIndex--;
-					new Admin_Home().setVisible(true);
-					dispose();
+			panelDeleteQues = new JPanel();
+			panelDeleteQues.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					panelDeleteQues.setBackground(new Color(42,100,186));
 				}
-				else
-				{
-					JOptionPane.showMessageDialog(null, "Unexpected Error Occured while deleting the question");
+				@Override
+				public void mouseExited(MouseEvent e) {
+					panelDeleteQues.setBackground(new Color(52,140,250));						
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					panelDeleteQues.setBackground(new Color(107,166,255));
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(qdao.delete(questionList.get(index))>0)
+					{
+						JOptionPane.showMessageDialog(null, "Question Deleted Successfully");
+						questionList.remove(index);
+						qNumber--;
+						index--;
+						maxIndex--;
+						new Admin_Home().setVisible(true);
+						dispose();
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Unexpected Error Occured while deleting the question");
+					}
 				}
 			});
-			btnBin.setBounds(501, 123, 57, 63);
-			btnBin.setIcon(new ImageIcon("bin.png"));
-			contentPane.add(btnBin);
+			panelDeleteQues.setBackground(new Color(52, 140, 250));
+			panelDeleteQues.setBounds(497, 43, 35, 35);
+			panelBlueHead.add(panelDeleteQues);
+			panelDeleteQues.setLayout(null);
+			
+			binIconLabel = new JLabel("");
+			binIconLabel.setIcon(new ImageIcon("bin.png"));
+			binIconLabel.setBounds(2, 0, 35, 35);
+			panelDeleteQues.add(binIconLabel);
 		}
 		radioA = new JRadioButton("A:");
+		radioA.setForeground(new Color(0, 102, 255));
+		radioA.setFont(new Font("Tahoma", Font.BOLD, 14));
+		radioA.setBackground(new Color(255, 255, 255));
 		buttonGroup_options.add(radioA);
-		radioA.setBounds(75, 220, 37, 23);
+		radioA.setBounds(58, 157, 52, 29);
 		
 		radioB = new JRadioButton("B:");
+		radioB.setForeground(new Color(0, 102, 255));
+		radioB.setFont(new Font("Tahoma", Font.BOLD, 14));
+		radioB.setBackground(new Color(255, 255, 255));
 		buttonGroup_options.add(radioB);
-		radioB.setBounds(327, 220, 37, 23);
+		radioB.setBounds(310, 157, 52, 29);
 						
 		radioC = new JRadioButton("C:");
+		radioC.setForeground(new Color(0, 102, 255));
+		radioC.setFont(new Font("Tahoma", Font.BOLD, 14));
+		radioC.setBackground(new Color(255, 255, 255));
 		buttonGroup_options.add(radioC);
-		radioC.setBounds(75, 277, 37, 23);
+		radioC.setBounds(58, 214, 52, 29);
 						
 		radioD = new JRadioButton("D:");
+		radioD.setForeground(new Color(0, 102, 255));
+		radioD.setFont(new Font("Tahoma", Font.BOLD, 14));
+		radioD.setBackground(new Color(255, 255, 255));
 		buttonGroup_options.add(radioD);
-		radioD.setBounds(327, 277, 37, 23);
+		radioD.setBounds(310, 217, 52, 23);
 		
 		if(!add&&index<maxIndex)
 		{
@@ -362,21 +522,57 @@ public class Admin_Home extends JFrame {
 		contentPane.add(radioC);
 		contentPane.add(radioD);
 		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setForeground(new Color(0, 102, 255));
+		separator_1.setBackground(new Color(0, 102, 255));
+		separator_1.setBounds(116, 180, 100, 2);
+		contentPane.add(separator_1);
+		
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setForeground(new Color(0, 102, 255));
+		separator_2.setBackground(new Color(0, 102, 255));
+		separator_2.setBounds(368, 180, 100, 2);
+		contentPane.add(separator_2);
+		
+		JSeparator separator_3 = new JSeparator();
+		separator_3.setForeground(new Color(0, 102, 255));
+		separator_3.setBackground(new Color(0, 102, 255));
+		separator_3.setBounds(116, 238, 100, 1);
+		contentPane.add(separator_3);
+		
+		separator_4 = new JSeparator();
+		separator_4.setForeground(new Color(0, 102, 255));
+		separator_4.setBackground(new Color(0, 102, 255));
+		separator_4.setBounds(368, 238, 100, 1);
+		contentPane.add(separator_4);
+		
 		if(add)
 		{
-			JLabel lblAddNewQuestion = new JLabel("Add New Question!");
-			lblAddNewQuestion.setForeground(new Color(204, 0, 0));
-			lblAddNewQuestion.setFont(new Font("Century Gothic", Font.BOLD, 18));
-			lblAddNewQuestion.setBounds(190, 50, 185, 35);
-			contentPane.add(lblAddNewQuestion);
+			JLabel label = new JLabel("Add New Question");
+			label.setForeground(Color.WHITE);
+			label.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 36));
+			label.setBounds(121, 11, 319, 29);
+			panelBlueHead.add(label);
 		}
 		
 		if(index<maxIndex&&!add)
 		{
-			JButton button_Save = new JButton("Update");
-			button_Save.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) 
-				{
+			panelUpdate = new JPanel();
+			panelUpdate.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					setColor(panelUpdate);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					resetColor(panelUpdate);
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					setLightColor(panelUpdate);
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
 					isQuestionValid = true;
 					//fetching correct option
 					fetchCorrectOption();
@@ -390,7 +586,7 @@ public class Admin_Home extends JFrame {
 						tempForUpdate = questionList.get(index);
 						tempForUpdate.setCorrectOption(correctOption);
 						tempForUpdate.setDiffLevel(diffLevel);
-						tempForUpdate.setQues(question_text.getText());
+						tempForUpdate.setQues(questionTextField.getText());
 						tempForUpdate.setOp1(textField_op1.getText());
 						tempForUpdate.setOp2(textField_op2.getText());
 						tempForUpdate.setOp3(textField_op3.getText());
@@ -404,20 +600,43 @@ public class Admin_Home extends JFrame {
 							JOptionPane.showMessageDialog(null, "Unexpected Error Occured while saving the question");
 						}
 					}
+					
 				}
 			});
-			button_Save.setBounds(247, 386, 107, 45);
-			contentPane.add(button_Save);
+			panelUpdate.setLayout(null);
+			panelUpdate.setBounds(258, 316, 65, 65);
+			contentPane.add(panelUpdate);
+			
+			updateIconLabel = new JLabel("");
+			updateIconLabel.setIcon(new ImageIcon("UpdateQues.png"));
+			updateIconLabel.setBounds(17, 11, 30, 30);
+			panelUpdate.add(updateIconLabel);
+			
+			label_3 = new JLabel("Update");
+			label_3.setForeground(new Color(0, 102, 255));
+			label_3.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			label_3.setBounds(13, 45, 43, 14);
+			panelUpdate.add(label_3);
 		}		
 		
 		if(index>0&&!add)
 		{
-			JButton button_prev = new JButton("Previous");
-			button_prev.addActionListener(new ActionListener() {
-				
+			panelPrevious = new JPanel();
+			panelPrevious.addMouseListener(new MouseAdapter() {
 				@Override
-				public void actionPerformed(ActionEvent e) 
-				{
+				public void mouseEntered(MouseEvent arg0) {
+					setColor(panelPrevious);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					resetColor(panelPrevious);
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					setLightColor(panelPrevious);
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
 					if(!add)
 					{
 						index--;
@@ -427,51 +646,128 @@ public class Admin_Home extends JFrame {
 					
 					new Admin_Home().setVisible(true);
 					dispose();
+					
 				}
 			});
-			button_prev.setBounds(40, 386, 107, 45);
-			contentPane.add(button_prev);
+			panelPrevious.setLayout(null);
+			panelPrevious.setBounds(116, 316, 65, 65);
+			contentPane.add(panelPrevious);
+			
+			prevIconLabel = new JLabel("");
+			prevIconLabel.setIcon(new ImageIcon("Previous.png"));
+			prevIconLabel.setBounds(17, 11, 30, 30);
+			panelPrevious.add(prevIconLabel);
+			
+			label_1 = new JLabel("Previous");
+			label_1.setForeground(new Color(0, 102, 255));
+			label_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			label_1.setBounds(13, 45, 43, 14);
+			panelPrevious.add(label_1);
 		}
 		else if(add)
 		{
-			JButton button_back = new JButton("Back");
-			button_back.addActionListener(new ActionListener() {
-				
+			//Back Button (in case of adding new question)
+			JPanel panelBack = new JPanel();
+			panelBack.addMouseListener(new MouseAdapter() {
 				@Override
-				public void actionPerformed(ActionEvent e) 
-				{
+				public void mouseEntered(MouseEvent arg0) {
+					setColor(panelBack);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					resetColor(panelBack);
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					setLightColor(panelBack);
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
 					add = false;
 					
 					new Admin_Home().setVisible(true);
 					dispose();
+					
 				}
 			});
-			button_back.setBounds(40, 386, 107, 45);
-			contentPane.add(button_back);
+			panelBack.setLayout(null);
+			panelBack.setBounds(116, 316, 65, 65);
+			contentPane.add(panelBack);
+			
+			JLabel backIconLabel = new JLabel("");
+			backIconLabel.setIcon(new ImageIcon("Back.png"));
+			backIconLabel.setBounds(11, 11, 30, 30);
+			panelBack.add(backIconLabel);
+			
+			JLabel label_back = new JLabel("Back");
+			label_back.setForeground(new Color(0, 102, 255));
+			label_back.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			label_back.setBounds(20, 45, 43, 14);
+			panelBack.add(label_back);
 		}
+		
 		
 		if(index<maxIndex-1)
 		{
-			JButton button_next = new JButton("Next");
-			button_next.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) 
-				{
+
+			panelNext = new JPanel();
+			panelNext.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					setColor(panelNext);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					resetColor(panelNext);
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					setLightColor(panelNext);
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
 					qNumber++;
 					index++;
 					
 					new Admin_Home().setVisible(true);
 					dispose();
+					
 				}
 			});
-			button_next.setBounds(446, 386, 107, 45);
-			contentPane.add(button_next);
+			panelNext.setLayout(null);
+			panelNext.setBounds(403, 316, 65, 65);
+			contentPane.add(panelNext);
+			
+			nextIconLabel = new JLabel("");
+			nextIconLabel.setIcon(new ImageIcon("Next.png"));
+			nextIconLabel.setBounds(17, 11, 30, 30);
+			panelNext.add(nextIconLabel);
+			
+			label_5 = new JLabel("Next");
+			label_5.setForeground(new Color(0, 102, 255));
+			label_5.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			label_5.setBounds(18, 45, 37, 14);
+			panelNext.add(label_5);
 		}
 		else if(!add&&index==maxIndex-1)		//Add more question Button
 		{
-			JButton button_addNew = new JButton("Add new Question");
-			button_addNew.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) 
-				{
+			System.out.println("Add More");
+			JPanel panelAddNewQues = new JPanel();
+			panelAddNewQues.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					setColor(panelAddNewQues);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					resetColor(panelAddNewQues);
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					setLightColor(panelAddNewQues);
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
 					tempForAdd = new Questions();
 					add = true;
 					isOptionSelected = false;
@@ -479,26 +775,51 @@ public class Admin_Home extends JFrame {
 					
 					new Admin_Home().setVisible(true);
 					dispose();
+					
 				}
 			});
-			button_addNew.setBounds(446, 386, 107, 45);
-			contentPane.add(button_addNew);
+			panelAddNewQues.setLayout(null);
+			panelAddNewQues.setBounds(403, 316, 65, 65);
+			contentPane.add(panelAddNewQues);
+			
+			JLabel addNewQuesIconLabel = new JLabel("");
+			addNewQuesIconLabel.setIcon(new ImageIcon("AddNew.png"));
+			addNewQuesIconLabel.setBounds(17, 11, 30, 30);
+			panelAddNewQues.add(addNewQuesIconLabel);
+			
+			JLabel labelAddNewQues = new JLabel("Add Ques");
+			labelAddNewQues.setForeground(new Color(0, 102, 255));
+			labelAddNewQues.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			labelAddNewQues.setBounds(11, 45, 47, 14);
+			panelAddNewQues.add(labelAddNewQues);
 		}
 		else		//Add the question to database wala button
 		{
-			JButton button_add = new JButton("Add");
-			button_add.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) 
-				{
+			JPanel panelAddToDatabase = new JPanel();
+			panelAddToDatabase.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					setColor(panelAddToDatabase);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					resetColor(panelAddToDatabase);
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					setLightColor(panelAddToDatabase);
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
 					isQuestionValid = true;
-					if(question_text.getText().trim().isEmpty()&&isQuestionValid)		//trim removes leading and trailing white spaces
+					if(questionTextField.getText().trim().isEmpty()&&isQuestionValid)		//trim removes leading and trailing white spaces
 					{
 						
 						JOptionPane.showMessageDialog(null, "Question cannot be blank");
 						isQuestionValid = false;
 					}
 					else
-						tempForAdd.setQues(question_text.getText());
+						tempForAdd.setQues(questionTextField.getText());
 					if(isQuestionValid&&(textField_op1.getText().trim().isEmpty()||textField_op2.getText().trim().isEmpty()||textField_op3.getText().trim().isEmpty()||textField_op4.getText().trim().isEmpty()))
 					{
 						JOptionPane.showMessageDialog(null, "Options cannot be blank");
@@ -548,8 +869,22 @@ public class Admin_Home extends JFrame {
 					dispose();
 				}
 			});
-			button_add.setBounds(446, 386, 107, 45);
-			contentPane.add(button_add);				
+			
+			panelAddToDatabase.setLayout(null);
+			panelAddToDatabase.setBounds(403, 316, 65, 65);
+			contentPane.add(panelAddToDatabase);
+			
+			JLabel addToDatabaseIconLabel = new JLabel("");
+			addToDatabaseIconLabel.setIcon(new ImageIcon("AddToDB.png"));
+			addToDatabaseIconLabel.setBounds(17, 11, 30, 30);
+			panelAddToDatabase.add(addToDatabaseIconLabel);
+			
+			JLabel labelAddToDatabase = new JLabel("Add");
+			labelAddToDatabase.setForeground(new Color(0, 102, 255));
+			labelAddToDatabase.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			labelAddToDatabase.setBounds(20, 45, 47, 14);
+			panelAddToDatabase.add(labelAddToDatabase);
+							
 		}
 	}
 }
