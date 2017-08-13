@@ -340,7 +340,7 @@ public class StartGame extends JFrame {
 			JLabel label_2 = new JLabel("A:");
 			label_2.setForeground(new Color(0, 102, 255));
 			label_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-			label_2.setBounds(10, 33, 24, 26);
+			label_2.setBounds(21, 39, 13, 15);
 			panel_op1.add(label_2);
 			
 			JPanel panel_op2 = new JPanel();
@@ -377,41 +377,6 @@ public class StartGame extends JFrame {
 			label_3.setFont(new Font("Tahoma", Font.BOLD, 12));
 			label_3.setBounds(23, 43, 17, 14);
 			panel_op2.add(label_3);
-			
-			JPanel panel_op3 = new JPanel();
-			panel_op3.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					setColor(panel_op3);
-				}
-				@Override
-				public void mouseExited(MouseEvent e) {
-					resetColor(panel_op3);
-				}
-				@Override
-				public void mousePressed(MouseEvent e) {
-					setLightColor(panel_op3);
-				}
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					validate(op3Label);
-				}
-			});
-			panel_op3.setLayout(null);
-			panel_op3.setBounds(353, 256, 150, 90);
-			contentPane.add(panel_op3);
-			
-			op3Label = new JLabel(list.get(index).getOp3());
-			op3Label.setForeground(new Color(0, 102, 255));
-			op3Label.setFont(new Font("Tahoma", Font.BOLD, 12));
-			op3Label.setBounds(51, 11, 89, 78);
-			panel_op3.add(op3Label);
-			
-			JLabel label_5 = new JLabel(" C:");
-			label_5.setForeground(new Color(0, 102, 255));
-			label_5.setFont(new Font("Tahoma", Font.BOLD, 12));
-			label_5.setBounds(20, 43, 17, 14);
-			panel_op3.add(label_5);
 			JPanel panel_op4 = new JPanel();
 			panel_op4.addMouseListener(new MouseAdapter() {
 				@Override
@@ -432,19 +397,19 @@ public class StartGame extends JFrame {
 				}
 			});
 			panel_op4.setLayout(null);
-			panel_op4.setBounds(84, 256, 150, 90);
+			panel_op4.setBounds(353, 257, 150, 90);
 			contentPane.add(panel_op4);
 			
 			op4Label = new JLabel(list.get(index).getOp4());
 			op4Label.setForeground(new Color(0, 102, 255));
 			op4Label.setFont(new Font("Tahoma", Font.BOLD, 12));
-			op4Label.setBounds(37, 11, 103, 78);
+			op4Label.setBounds(53, 11, 87, 78);
 			panel_op4.add(op4Label);
 			
 			JLabel label_4 = new JLabel("D:");
 			label_4.setForeground(new Color(0, 102, 255));
 			label_4.setFont(new Font("Tahoma", Font.BOLD, 12));
-			label_4.setBounds(10, 43, 17, 14);
+			label_4.setBounds(26, 43, 17, 14);
 			panel_op4.add(label_4);
 			
 			//Adding Drag and positioning functionality
@@ -495,6 +460,41 @@ public class StartGame extends JFrame {
 				}
 			});
 			lblX.setIcon(new ImageIcon("close.png"));
+			
+			JPanel panel_op3 = new JPanel();
+			panel_op3.setBounds(84, 257, 150, 90);
+			contentPane.add(panel_op3);
+			panel_op3.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					setColor(panel_op3);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					resetColor(panel_op3);
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					setLightColor(panel_op3);
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					validate(op3Label);
+				}
+			});
+			panel_op3.setLayout(null);
+			
+			op3Label = new JLabel(list.get(index).getOp3());
+			op3Label.setForeground(new Color(0, 102, 255));
+			op3Label.setFont(new Font("Tahoma", Font.BOLD, 12));
+			op3Label.setBounds(51, 11, 89, 78);
+			panel_op3.add(op3Label);
+			
+			JLabel label_5 = new JLabel(" C:");
+			label_5.setForeground(new Color(0, 102, 255));
+			label_5.setFont(new Font("Tahoma", Font.BOLD, 12));
+			label_5.setBounds(20, 43, 17, 14);
+			panel_op3.add(label_5);
 		}					
 	}
 }
