@@ -14,9 +14,15 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.JSeparator;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AdminChangeID extends JFrame {
 
@@ -40,6 +46,19 @@ public class AdminChangeID extends JFrame {
 		});
 	}
 
+	private void setColor(JPanel panel)
+	{
+		panel.setBackground(new Color(156,156,156));
+	}
+	private void resetColor(JPanel panel)
+	{
+		panel.setBackground(new Color(240,240,240));
+	}
+	private void setLightColor(JPanel panel)
+	{
+		panel.setBackground(new Color(211,211,211));
+	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -48,69 +67,155 @@ public class AdminChangeID extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 500);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel label = new JLabel("Change ID/password");
-		label.setFont(new Font("Dialog", Font.PLAIN, 24));
-		label.setBounds(155, 79, 253, 81);
-		contentPane.add(label);
-		
-		JLabel label_1 = new JLabel("Enter new username/password");
-		label_1.setFont(new Font("Dialog", Font.PLAIN, 14));
-		label_1.setBounds(171, 169, 237, 35);
-		contentPane.add(label_1);
-		
-		JLabel usernameLabel = new JLabel("Username:");
-		usernameLabel.setFont(new Font("Yu Gothic", Font.PLAIN, 14));
-		usernameLabel.setBounds(169, 232, 82, 35);
-		contentPane.add(usernameLabel);
-		
 		usernameTextField = new JTextField();
+		usernameTextField.setForeground(new Color(0, 102, 204));
+		usernameTextField.setFont(new Font("Tahoma", Font.BOLD, 14));
+		usernameTextField.setBorder(BorderFactory.createEmptyBorder());
 		usernameTextField.setColumns(10);
-		usernameTextField.setBounds(261, 240, 111, 20);
+		
+		usernameTextField.setBounds(265, 209, 111, 20);
 		contentPane.add(usernameTextField);
 		
-		JLabel passwordLabel = new JLabel("Password:");
-		passwordLabel.setFont(new Font("Yu Gothic", Font.PLAIN, 14));
-		passwordLabel.setBounds(169, 278, 82, 35);
-		contentPane.add(passwordLabel);
-		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(261, 286, 111, 20);
+		passwordField.setBorder(BorderFactory.createEmptyBorder());
+		passwordField.setForeground(new Color(0, 102, 255));
+		passwordField.setFont(new Font("Tahoma", Font.BOLD, 14));
+		passwordField.setBounds(265, 253, 111, 20);
 		contentPane.add(passwordField);
 		
-		JButton button_update = new JButton("Update");
-		button_update.addActionListener(e ->
-		{
-					QuestionsDAO qdao = new QuestionsDAO();
-					if(qdao.updateAdmin(usernameTextField.getText(), passwordField.getText())>0)
-					{
-						JOptionPane.showMessageDialog(null, "Username/Password updated successfully");
-						new Admin_Home().setVisible(true);
-						dispose();
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(null, "Unexpected Error occured while updating username/password!");
-					}
-		});
-		button_update.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
-		button_update.setBounds(194, 343, 82, 28);
-		contentPane.add(button_update);
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBackground(new Color(52, 140, 250));
+		panel.setBounds(0, 0, 584, 126);
+		contentPane.add(panel);
 		
-		JButton button_back = new JButton("Back");
-		button_back.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) 
-			{
+		JLabel label_2 = new JLabel("");
+		label_2.setBounds(43, 26, 50, 50);
+		panel.add(label_2);
+		
+		JLabel label_3 = new JLabel("Change ID/password");
+		label_3.setForeground(Color.WHITE);
+		label_3.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 36));
+		label_3.setBounds(103, 35, 354, 41);
+		panel.add(label_3);
+		
+		JLabel label = new JLabel("Enter new username/password");
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		label.setBounds(128, 74, 278, 30);
+		panel.add(label);
+		
+		JLabel label_1 = new JLabel("");
+		label_1.setIcon(new ImageIcon("Change.png"));
+		label_1.setBounds(43, 42, 50, 50);
+		panel.add(label_1);
+		
+		JLabel label_4 = new JLabel("Username:");
+		label_4.setForeground(new Color(0, 102, 255));
+		label_4.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 18));
+		label_4.setBounds(151, 211, 104, 20);
+		contentPane.add(label_4);
+		
+		JLabel label_5 = new JLabel("Password:");
+		label_5.setForeground(new Color(0, 102, 255));
+		label_5.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 18));
+		label_5.setBounds(151, 255, 104, 20);
+		contentPane.add(label_5);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBackground(new Color(0, 102, 255));
+		separator.setForeground(new Color(0, 102, 255));
+		separator.setBounds(265, 228, 111, 5);
+		contentPane.add(separator);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setForeground(new Color(0, 102, 255));
+		separator_1.setBackground(new Color(0, 102, 255));
+		separator_1.setBounds(265, 272, 111, 5);
+		contentPane.add(separator_1);
+		
+		JPanel panel_update = new JPanel();
+		panel_update.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				setColor(panel_update);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				resetColor(panel_update);
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				setLightColor(panel_update);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				QuestionsDAO qdao = new QuestionsDAO();
+				if(qdao.updateAdmin(usernameTextField.getText(), passwordField.getText())>0)
+				{
+					JOptionPane.showMessageDialog(null, "Username/Password updated successfully");
+					new Admin_Home().setVisible(true);
+					dispose();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Unexpected Error occured while updating username/password!");
+				}
+			}
+		});
+		panel_update.setLayout(null);
+		panel_update.setBounds(129, 323, 100, 100);
+		contentPane.add(panel_update);
+		
+		JLabel label_6 = new JLabel("");
+		label_6.setIcon(new ImageIcon("Update.png"));
+		label_6.setBounds(22, 11, 50, 50);
+		panel_update.add(label_6);
+		
+		JLabel label_7 = new JLabel(" Update");
+		label_7.setForeground(new Color(0, 102, 255));
+		label_7.setFont(new Font("Tahoma", Font.BOLD, 12));
+		label_7.setBounds(22, 72, 68, 19);
+		panel_update.add(label_7);
+		
+		JPanel panel_back = new JPanel();
+		panel_back.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				setColor(panel_back);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				resetColor(panel_back);
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				setLightColor(panel_back);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				new Admin_Home().setVisible(true);
 				dispose();
 			}
 		});
-		button_back.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 12));
-		button_back.setBounds(297, 343, 82, 28);
-		contentPane.add(button_back);
+		panel_back.setLayout(null);
+		panel_back.setBounds(300, 323, 100, 100);
+		contentPane.add(panel_back);
+		
+		JLabel label_8 = new JLabel("");
+		label_8.setIcon(new ImageIcon("Back.png"));
+		label_8.setBounds(22, 11, 50, 50);
+		panel_back.add(label_8);
+		
+		JLabel label_9 = new JLabel("Back");
+		label_9.setForeground(new Color(0, 102, 255));
+		label_9.setFont(new Font("Tahoma", Font.BOLD, 12));
+		label_9.setBounds(32, 72, 40, 19);
+		panel_back.add(label_9);
 	}
-
 }
