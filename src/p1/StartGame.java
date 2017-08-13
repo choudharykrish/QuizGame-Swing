@@ -89,6 +89,7 @@ public class StartGame extends JFrame {
 				index = 0;
 				correctAns = 0;
 				incorrectAns = 0;
+				isNewSession = true;
 				qNo = 1;
 				new Index(x,y).setVisible(true);
 				dispose();
@@ -108,6 +109,7 @@ public class StartGame extends JFrame {
 				index = 0;
 				correctAns = 0;
 				incorrectAns = 0;
+				isNewSession = true;
 				qNo = 1;
 				new Index(x,y).setVisible(true);
 				dispose();
@@ -149,6 +151,7 @@ public class StartGame extends JFrame {
 			incorrectAns = 0;
 			qNo = 1;
 			qdao = new QuestionsDAO();
+			list = new ArrayList<>();
 			list.addAll(qdao.read('e'));
 			list.addAll(qdao.read('m'));
 			list.addAll(qdao.read('d'));
@@ -269,8 +272,9 @@ public class StartGame extends JFrame {
 					int reply = JOptionPane.showConfirmDialog(null,QUIT_CONFORMATION_MESSAGE, QUIT_CONFORMATION_TITLE, JOptionPane.YES_NO_OPTION);
 			        if (reply == JOptionPane.YES_OPTION) 
 			        {
-			          new Index(x,y).setVisible(true);
-			          dispose();
+			        	isNewSession = true;
+			        	new Index(x,y).setVisible(true);
+			        	dispose();
 			        }
 				}
 			});
