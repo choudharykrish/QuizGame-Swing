@@ -45,6 +45,7 @@ public class QuestionsDAO
 			ps.setString(5, q.getOp4());
 			ps.setString(6, q.getCorrectOption());
 			x = ps.executeUpdate();
+			ps.close();
 		} 
 		catch (SQLException e) 
 		{
@@ -63,6 +64,8 @@ public class QuestionsDAO
 			ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID()");
 			rs.next();
 			x = rs.getInt(1);
+			rs.close();
+			st.close();
 		} 
 		catch (SQLException e) 
 		{
@@ -102,6 +105,8 @@ public class QuestionsDAO
 				list.add(temp);
 				//temp.display();
 			}
+			rs.close();
+			st.close();
 		} 
 		catch (SQLException e) 
 		{
@@ -126,6 +131,7 @@ public class QuestionsDAO
 			ps.setString(6, u.getCorrectOption());
 			ps.setInt(7, u.getQid());
 			x = ps.executeUpdate();
+			ps.close();
 		} 
 		catch (SQLException e) 
 		{
@@ -142,6 +148,7 @@ public class QuestionsDAO
 		{
 			Statement st = con.createStatement();
 			x = st.executeUpdate("delete from questions where id='"+u.getQid()+"'");
+			st.close();
 		} 
 		catch (SQLException e) 
 		{
@@ -161,6 +168,7 @@ public class QuestionsDAO
 			ps.setString(1, user);
 			ps.setString(2, pass);
 			x = ps.executeUpdate();
+			ps.close();
 		} 
 		catch (SQLException e) 
 		{
@@ -169,4 +177,13 @@ public class QuestionsDAO
 		
 		return x;
 	}
+	
+	@Override
+	protected void finalize() throws Throwable 
+	{
+		con.close();
+		super.finalize();
+	}
+	
+	
 }

@@ -87,6 +87,7 @@ public class StartGame extends JFrame {
 		//Time Up
 		if(time==0&&!Thread.currentThread().isInterrupted())
 		{
+			setTimeToLabel(time);
 			incorrectAns++;
 			qNo++;
 			JOptionPane.showMessageDialog(null, "Time Up! Corect Answer is: "+list.get(index).getCorrectOption());
