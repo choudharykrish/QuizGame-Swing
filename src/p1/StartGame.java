@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -60,14 +59,16 @@ public class StartGame extends JFrame {
 		});
 	}
 	
-	public StartGame(int x, int y) throws HeadlessException {
+	public StartGame(int x, int y) 
+	{
 		this();
 		this.x = x;
 		this.y = y;
 		setLocation(x, y);
 		if(isListEmpty)
 		{
-			new Index(x, y).setVisible(true);
+			Index i = new Index(x, y);
+			i.setVisible(true);
 			dispose();
 		}
 	}
@@ -504,16 +505,7 @@ public class StartGame extends JFrame {
 			label_5.setBounds(20, 43, 17, 14);
 			panel_op3.add(label_5);
 		}
-	/*	else
-		{
-			//System.out.println("Index called");
-			//new Index(x,y).setVisible(true);
-			System.out.println("Before dispose method");
-			dispose();
-			System.out.println("After dispose");
-		}
-	*/	
+		setVisible(true);
+		//System.out.println("End of default constructor");
 	}
-	
-	
 }

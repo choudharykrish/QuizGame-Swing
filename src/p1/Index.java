@@ -90,17 +90,18 @@ public class Index extends JFrame
 		panelBlueHead.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				x = e.getXOnScreen()-xx;
+				x = e.getXOnScreen()-xx;				//getXOnScreen: absolute X of mouse
 				y = e.getYOnScreen()-xy;
-				setLocation(x,y);
+				setLocation(x,y);						//set location of top left corner of window as (x,y)
 			}
 		});
 		
 		panelBlueHead.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				xx = e.getX();
+				xx = e.getX();							//getX: relative X of mouse wrt top left corner of window
 				xy = e.getY();
+				System.out.println("Pressed: "+xx+" : "+xy);
 			}
 		});
 		contentPane.add(panelBlueHead);
@@ -169,7 +170,8 @@ public class Index extends JFrame
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				new StartGame(x,y).setVisible(true);
+				new StartGame(x,y);						//set visible true done in constructor
+														//Setting visible true after dispose(in constructor) was again making that frame
 				dispose();
 			}
 		});
