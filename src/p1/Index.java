@@ -101,7 +101,7 @@ public class Index extends JFrame
 			public void mousePressed(MouseEvent e) {
 				xx = e.getX();							//getX: relative X of mouse wrt top left corner of window
 				xy = e.getY();
-				System.out.println("Pressed: "+xx+" : "+xy);
+				//System.out.println("Pressed: "+xx+" : "+xy);
 			}
 		});
 		contentPane.add(panelBlueHead);

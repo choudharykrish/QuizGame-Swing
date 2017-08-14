@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.sun.javafx.scene.control.skin.LabeledText;
+
 import DAO.QuestionsDAO;
 import DTO.Questions;
 
@@ -24,13 +27,74 @@ public class StartGame extends JFrame {
 	private JPanel contentPane;
 	private final String QUIT_CONFORMATION_MESSAGE = "Do you want to quit the game?";
 	private final String QUIT_CONFORMATION_TITLE = "Confirmation";
+	private final static int TIME_FOR_EASY = 15,TIME_FOR_MOD = 20,TIME_FOR_DIFF = 25;
 	static private ArrayList<Questions> list;
 	private static boolean isNewSession,isListEmpty;
 	private static int index,correctAns, incorrectAns,maxIndex,qNo;
+	private int time;
 	private QuestionsDAO qdao;
-	private JLabel op1Label,op2Label,op3Label,op4Label;
+	private JLabel op1Label,op2Label,op3Label,op4Label,labelTime;
 	private JPanel panelBlueHead;
 	private int xx,xy,x,y;
+	private MyThread threadForTimer;
+	
+	private class MyThread extends Thread
+	{
+			public void run() 
+			{
+				switch(Thread.currentThread().getName())
+				{
+				case "e":
+					time = TIME_FOR_EASY;
+					startTimer();
+					break;
+				case "m":
+					time = TIME_FOR_MOD;
+					startTimer();
+					break;
+				case "d":
+					time = TIME_FOR_DIFF;
+					startTimer();
+					break;					
+				}
+			}	
+	}
+	
+	private void setTimeToLabel(int time)
+	{
+		if(time>9)
+			labelTime.setText("00:"+time);
+		else
+			labelTime.setText("00:0"+time);
+	}
+	
+	private void startTimer()
+	{
+		while(time>0&&!Thread.currentThread().isInterrupted())
+		{
+			setTimeToLabel(time);
+			time--;
+			try 
+			{
+				Thread.sleep(1000);
+			} 
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		//Time Up
+		if(time==0&&!Thread.currentThread().isInterrupted())
+		{
+			incorrectAns++;
+			qNo++;
+			JOptionPane.showMessageDialog(null, "Time Up! Corect Answer is: "+list.get(index).getCorrectOption());
+			index++;
+			new StartGame(x,y).setVisible(true);
+			dispose();
+		}		
+	}
 	
 	static
 	{
@@ -75,6 +139,9 @@ public class StartGame extends JFrame {
 
 	public void validate(JLabel label)
 	{
+		threadForTimer.interrupt();
+		threadForTimer.stop();
+		
 		//Correct Answer
 		if(label.getText().equals(list.get(index).getCorrectOption()))
 		{
@@ -180,8 +247,8 @@ public class StartGame extends JFrame {
 		}
 		
 		
-		if(!isListEmpty)
-		{
+//		if(!isListEmpty)
+//		{
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(100, 100, 600, 500);
 			setResizable(false);
@@ -237,7 +304,10 @@ public class StartGame extends JFrame {
 					setLightColor(panelRestart);
 				}
 				@Override
-				public void mouseClicked(MouseEvent e) {
+				public void mouseClicked(MouseEvent e) 
+				{
+					threadForTimer.interrupt();
+					threadForTimer.stop();
 					isNewSession = true;
 					new StartGame(x,y).setVisible(true);
 					dispose();
@@ -273,15 +343,33 @@ public class StartGame extends JFrame {
 					setLightColor(panelQuit);
 				}
 				@Override
-				public void mouseClicked(MouseEvent e) {
-					int reply = JOptionPane.showConfirmDialog(null,QUIT_CONFORMATION_MESSAGE, QUIT_CONFORMATION_TITLE, JOptionPane.YES_NO_OPTION);
-			        if (reply == JOptionPane.YES_OPTION) 
-			        {
-			        	isNewSession = true;
-			        	new Index(x,y).setVisible(true);
-			        	dispose();
-			        }
-				}
+				public void mouseClicked(MouseEvent e) 
+				{
+	/*				try 
+					{
+						synchronized (threadForTimer) 
+						{
+							threadForTimer.wait();
+	*/						int reply = JOptionPane.showConfirmDialog(null,QUIT_CONFORMATION_MESSAGE, QUIT_CONFORMATION_TITLE, JOptionPane.YES_NO_OPTION);
+					        if (reply == JOptionPane.YES_OPTION) 
+					        {
+					        	threadForTimer.interrupt();
+					        	threadForTimer.stop();
+					        	isNewSession = true;
+					        	new Index(x,y).setVisible(true);
+					        	dispose();
+					        }
+	/*				        else
+					        {
+					        	threadForTimer.notify();
+					        }
+						}
+					} 
+					catch (InterruptedException e1) 
+					{
+						e1.printStackTrace();
+					}					
+	*/			}
 			});
 			panelQuit.setBounds(436, 9, 65, 65);
 			panel_1.add(panelQuit);
@@ -309,6 +397,20 @@ public class StartGame extends JFrame {
 			lblQno.setFont(new Font("Tahoma", Font.BOLD, 18));
 			lblQno.setBounds(40, 40, 32, 29);
 			panelBlueHead.add(lblQno);
+			
+			//Timer Label
+			labelTime = new JLabel("00:00");
+			labelTime.setForeground(Color.WHITE);
+			labelTime.setFont(new Font("Tahoma", Font.BOLD, 18));
+			labelTime.setBounds(540, 88, 66, 29);
+			panelBlueHead.add(labelTime);
+			
+			
+			//Starting Thread for timer
+			threadForTimer = new MyThread();
+			threadForTimer.setName(list.get(index).getDiffLevel()+"");
+			threadForTimer.setDaemon(true);
+			threadForTimer.start();
 			
 			//Question
 			JLabel lblQuestion = new JLabel(list.get(index).getQues());
@@ -504,7 +606,7 @@ public class StartGame extends JFrame {
 			label_5.setFont(new Font("Tahoma", Font.BOLD, 12));
 			label_5.setBounds(20, 43, 17, 14);
 			panel_op3.add(label_5);
-		}
+//		}
 		setVisible(true);
 		//System.out.println("End of default constructor");
 	}
