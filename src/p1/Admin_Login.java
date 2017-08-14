@@ -176,10 +176,9 @@ public class Admin_Login extends JFrame {
 				try {
 					rs.beforeFirst();
 					int flag = 0;
-					@SuppressWarnings("deprecation")
-					String pwd = password_TF.getText();
+					String pwd = String.valueOf(password_TF.getPassword());
 					String user = uname_TF.getText();
-					System.out.println("Input Username : "+user+" \nInput Password: "+password_TF.getPassword().toString());
+					System.out.println("Input Username : "+user+" \nInput Password: "+String.valueOf(password_TF.getPassword()));
 					while(rs.next())
 					{
 						System.out.println("Username: "+rs.getString(1));
@@ -198,7 +197,6 @@ public class Admin_Login extends JFrame {
 						JOptionPane.showMessageDialog(null, "Success!\n Welcome " + user);
 						uname_TF.setText("");
 						password_TF.setText("");
-						//new Test().setVisible(true);
 						dispose();
 						new Admin_Home(x,y).setVisible(true);						
 					}
