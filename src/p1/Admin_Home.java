@@ -460,18 +460,28 @@ public class Admin_Home extends JFrame {
 					{
 						JOptionPane.showMessageDialog(null, "Question Deleted Successfully");
 						questionList.remove(index);
-						qNumber--;
-						index--;
-						maxIndex--;
-						isDiffLevelSelected = false;
-						isOptionSelected = false;
-						if(index==-1)
+						
+						//If the removed question is first question but list is not empty
+						if(!questionList.isEmpty()&&index==0)
 						{
-							isFirstQuestion = true;
-							add = true;
-							isTempCreated = false;
-							tempForAdd = new Questions();
+							maxIndex--;
 						}
+						else
+						{
+							qNumber--;
+							index--;
+							maxIndex--;
+							isDiffLevelSelected = false;
+							isOptionSelected = false;
+							if(index==-1)
+							{
+								isFirstQuestion = true;
+								add = true;
+								isTempCreated = false;
+								tempForAdd = new Questions();
+							}
+						}
+						
 						new Admin_Home(x,y).setVisible(true);
 						dispose();
 					}
@@ -798,6 +808,7 @@ public class Admin_Home extends JFrame {
 				public void mouseClicked(MouseEvent e) {
 					tempForAdd = new Questions();
 					add = true;
+					isTempCreated = true;
 					isOptionSelected = false;
 					isDiffLevelSelected = false;
 					

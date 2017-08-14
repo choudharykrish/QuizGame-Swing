@@ -23,6 +23,7 @@ public class Index extends JFrame
 	{
 		isFirstTime = true;
 	}
+	
 	/**
 	 * Launch the application.
 	 */

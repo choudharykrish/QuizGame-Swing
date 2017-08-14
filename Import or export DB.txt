@@ -1,0 +1,3 @@
+Import to DB:			mysql -u root -p quiz < quiz.sql
+
+Export DB to .sql file: 	mysqldump -u root -p quiz > quiz.sql
