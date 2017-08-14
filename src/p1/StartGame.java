@@ -46,6 +46,7 @@ public class StartGame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -61,11 +62,13 @@ public class StartGame extends JFrame {
 	
 	public StartGame(int x, int y) throws HeadlessException {
 		this();
-		if(!isListEmpty)
+		this.x = x;
+		this.y = y;
+		setLocation(x, y);
+		if(isListEmpty)
 		{
-			this.x = x;
-			this.y = y;
-			setLocation(x, y);
+			new Index(x, y).setVisible(true);
+			dispose();
 		}
 	}
 
@@ -159,19 +162,20 @@ public class StartGame extends JFrame {
 			if(list.isEmpty())
 			{
 				isListEmpty = true;
+				isNewSession = true;
+				setTitle("Start game");
 				JOptionPane.showMessageDialog(null, "Quiz is empty! \nContact admin to add questions!!");
-				new Index(x,y).setVisible(true);
-				dispose();
+				
 			}
 			else
 			{
 				isListEmpty = false;
 			}
-			int i=0;
+			/*int i=0;
 			while(i<maxIndex)
 			{
 				list.get(i++).display();
-			}
+			}*/
 		}
 		
 		
@@ -499,6 +503,17 @@ public class StartGame extends JFrame {
 			label_5.setFont(new Font("Tahoma", Font.BOLD, 12));
 			label_5.setBounds(20, 43, 17, 14);
 			panel_op3.add(label_5);
-		}					
+		}
+	/*	else
+		{
+			//System.out.println("Index called");
+			//new Index(x,y).setVisible(true);
+			System.out.println("Before dispose method");
+			dispose();
+			System.out.println("After dispose");
+		}
+	*/	
 	}
+	
+	
 }
