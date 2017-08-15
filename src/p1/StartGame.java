@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import DAO.QuestionsDAO;
@@ -14,11 +15,13 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.util.ArrayList;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.SystemColor;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class StartGame extends JFrame {
@@ -141,9 +144,10 @@ public class StartGame extends JFrame {
 	{
 		threadForTimer.interrupt();
 		threadForTimer.stop();
+		System.out.println(label.getText().substring(9,label.getText().length()-11));
 		
 		//Correct Answer
-		if(label.getText().equals(list.get(index).getCorrectOption()))
+		if(label.getText().substring(9,label.getText().length()-11).equals(list.get(index).getCorrectOption()))
 		{
 			correctAns++;
 			JOptionPane.showMessageDialog(null, "Correct Answer!");
@@ -435,6 +439,8 @@ public class StartGame extends JFrame {
 				}
 			});
 			
+			lblQuestion.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
+			lblQuestion.setAlignmentY(JTextArea.CENTER_ALIGNMENT);
 			lblQuestion.setWrapStyleWord(true);
 			lblQuestion.setLineWrap(true);
 			lblQuestion.setBackground(new Color(52, 140, 250));
@@ -468,7 +474,8 @@ public class StartGame extends JFrame {
 			contentPane.add(panel_op1);
 			panel_op1.setLayout(null);
 			
-			op1Label = new JLabel(list.get(index).getOp1());
+			op1Label = new JLabel("<html><p>"+list.get(index).getOp1()+"</html></p>");
+			op1Label.setHorizontalAlignment(SwingConstants.LEFT);
 			op1Label.setForeground(new Color(0, 102, 255));
 			op1Label.setFont(new Font("Tahoma", Font.BOLD, 12));
 			op1Label.setBounds(44, 11, 96, 71);
@@ -503,7 +510,7 @@ public class StartGame extends JFrame {
 			panel_op2.setBounds(353, 145, 150, 90);
 			contentPane.add(panel_op2);
 			
-			op2Label = new JLabel(list.get(index).getOp2());
+			op2Label = new JLabel("<html><p>"+list.get(index).getOp2()+"</html></p>");
 			op2Label.setForeground(new Color(0, 102, 255));
 			op2Label.setFont(new Font("Tahoma", Font.BOLD, 12));
 			op2Label.setBounds(51, 11, 89, 78);
@@ -537,7 +544,7 @@ public class StartGame extends JFrame {
 			panel_op4.setBounds(353, 257, 150, 90);
 			contentPane.add(panel_op4);
 			
-			op4Label = new JLabel(list.get(index).getOp4());
+			op4Label = new JLabel("<html><p>"+list.get(index).getOp4()+"</html></p>");
 			op4Label.setForeground(new Color(0, 102, 255));
 			op4Label.setFont(new Font("Tahoma", Font.BOLD, 12));
 			op4Label.setBounds(53, 11, 87, 78);
@@ -621,7 +628,7 @@ public class StartGame extends JFrame {
 			});
 			panel_op3.setLayout(null);
 			
-			op3Label = new JLabel(list.get(index).getOp3());
+			op3Label = new JLabel("<html><p>"+list.get(index).getOp3()+"</html></p>");
 			op3Label.setForeground(new Color(0, 102, 255));
 			op3Label.setFont(new Font("Tahoma", Font.BOLD, 12));
 			op3Label.setBounds(51, 11, 89, 78);
