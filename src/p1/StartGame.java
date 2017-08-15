@@ -3,9 +3,8 @@ package p1;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
-
-import com.sun.javafx.scene.control.skin.LabeledText;
 
 import DAO.QuestionsDAO;
 import DTO.Questions;
@@ -396,7 +395,7 @@ public class StartGame extends JFrame {
 			JLabel lblQno = new JLabel(qNo+"");
 			lblQno.setForeground(new Color(255, 255, 255));
 			lblQno.setFont(new Font("Tahoma", Font.BOLD, 18));
-			lblQno.setBounds(40, 40, 32, 29);
+			lblQno.setBounds(44, 19, 32, 29);
 			panelBlueHead.add(lblQno);
 			
 			//Timer Label
@@ -414,7 +413,33 @@ public class StartGame extends JFrame {
 			threadForTimer.start();
 			
 			//Question
-			JLabel lblQuestion = new JLabel(list.get(index).getQues());
+			JTextArea lblQuestion = new JTextArea(list.get(index).getQues());
+			lblQuestion.addMouseMotionListener(new MouseMotionAdapter()
+			{
+				@Override
+				public void mouseDragged(MouseEvent e) 
+				{
+					x = e.getXOnScreen()-xx;
+					y = e.getYOnScreen()-xy;
+					setLocation(x,y);
+					System.out.println("Question dragged: "+x+" : "+y);
+				}
+			});
+			
+			lblQuestion.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					xx = e.getX() + 82;
+					xy = e.getY() + 20;
+					System.out.println("Question pressed: "+xx+" : "+xy);
+				}
+			});
+			
+			lblQuestion.setWrapStyleWord(true);
+			lblQuestion.setLineWrap(true);
+			lblQuestion.setBackground(new Color(52, 140, 250));
+			lblQuestion.setEditable(false);
+			lblQuestion.setHighlighter(null);
 			lblQuestion.setForeground(new Color(255, 255, 255));
 			lblQuestion.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			lblQuestion.setBounds(82, 20, 474, 68);
